@@ -1,0 +1,46 @@
+{
+  "name": "scpl",
+  "version": "1.6.2",
+  "main": "built/index.js",
+  "types": "built/index.d.ts",
+  "license": "MIT",
+  "homepage": "https://pfgithub.github.io/scpl-cli",
+  "bugs": {
+    "url": "https://github.com/pfgithub/scpl-cli"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": {
+    "name": "pfg",
+    "email": "omegariisthebest@gmail.com",
+    "url": "https://pfgithub.github.io/"
+  },
+  "bin": {
+    "scpl": "./built/bin/scpl.js"
+  },
+  "repository": "github:pfgithub/scpl-cli",
+  "man": "./man/scpl.1",
+  "files": [
+    "/man",
+    "/built/index.js",
+    "/built/index.d.ts",
+    "/built/src",
+    "/built/bin"
+  ],
+  "dependencies": {
+    "bplist-creator": "^0.0.7",
+    "bplist-parser": "^0.1.1",
+    "chalk": "^2.4.2",
+    "scpl": "^1.7.0",
+    "yargs": "^13.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^11.9.5",
+    "@types/yargs": "^12.0.9",
+    "@typescript-eslint/eslint-plugin": "^1.4.2",
+    "@typescript-eslint/parser": "^1.4.2",
+    "eslint": "^5.14.1",
+    "typescript": "^3.3.3333"
+  }
+}

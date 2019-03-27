@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": { "*": ["types/*"] },
+    "outDir": "./built",
+    "target": "es2017",
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "lib": ["es2017", "dom"],
+    "resolveJsonModule": true,
+    "declaration": false,
+    "strict": true
+  },
+  "include": ["src/**/*", "bin/**/*", "test/**/*", "index.ts"]
+}
