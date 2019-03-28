@@ -1,8 +1,6 @@
 {
-  "name": "scpl",
-  "version": "1.6.2",
-  "main": "built/index.js",
-  "types": "built/index.d.ts",
+  "name": "scpl-cli",
+  "version": "1.0.0",
   "license": "MIT",
   "homepage": "https://pfgithub.github.io/scpl-cli",
   "bugs": {
