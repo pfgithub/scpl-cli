@@ -27,8 +27,6 @@
     "/built/bin"
   ],
   "dependencies": {
-    "bplist-creator": "^0.0.7",
-    "bplist-parser": "^0.1.1",
     "chalk": "^2.4.2",
     "scpl": "^1.7.0",
     "yargs": "^13.2.1"
