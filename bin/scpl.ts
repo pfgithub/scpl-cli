@@ -15,15 +15,15 @@ const argv = yargs.argv;
 
 if (argv.h || argv.help) {
   console.log("Usage: scpl [inputfile] -o [outputfile]"); //eslint-disable-line no-console
-  process.exit(0);
+  process.exit(1);
 }
 if (!argv.o && !argv.output) {
   console.log("Usage: scpl [inputfile] -o [>outputfile]"); //eslint-disable-line no-console
-  process.exit(0);
+  process.exit(1);
 }
 if (!argv._ || !argv._[0]) {
   console.log("Usage: scpl [>inputfile] -o [outputfile]"); //eslint-disable-line no-console
-  process.exit(0);
+  process.exit(1);
 }
 
 const outputPath = path.join(process.cwd(), <string>(argv.o || argv.output));
@@ -82,7 +82,7 @@ function throwError(
       )} - ` + error.message
     ); //eslint-disable-line no-console
   }
-  process.exit(0);
+  process.exit(1);
   throw new Error("Process did not exit");
 }
 
