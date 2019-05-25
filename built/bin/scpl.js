@@ -9,15 +9,15 @@ const chalk_1 = require("chalk");
 const argv = yargs.argv;
 if (argv.h || argv.help) {
     console.log("Usage: scpl [inputfile] -o [outputfile]"); //eslint-disable-line no-console
-    process.exit(0);
+    process.exit(1);
 }
 if (!argv.o && !argv.output) {
     console.log("Usage: scpl [inputfile] -o [>outputfile]"); //eslint-disable-line no-console
-    process.exit(0);
+    process.exit(1);
 }
 if (!argv._ || !argv._[0]) {
     console.log("Usage: scpl [>inputfile] -o [outputfile]"); //eslint-disable-line no-console
-    process.exit(0);
+    process.exit(1);
 }
 const outputPath = path.join(process.cwd(), (argv.o || argv.output));
 const inputPath = path.join(process.cwd(), argv._[0]);
@@ -55,7 +55,7 @@ function throwError(filename, fileContent, error) {
     else {
         console.log(`${chalk_1.default.blue(filename)}:${chalk_1.default.yellow("???")}:${chalk_1.default.yellow("???")} - ` + error.message); //eslint-disable-line no-console
     }
-    process.exit(0);
+    process.exit(1);
     throw new Error("Process did not exit");
 }
 console.log(`Converting ${outputPath}`); //eslint-disable-line no-console
@@ -75,7 +75,7 @@ const extraParseActions = {
         const fileCont = fs.readFileSync(importPath, "utf8");
         let actions;
         try {
-            actions = scpl_1.parse(fileCont, { extraParseActions });
+            actions = scpl_1.parse(fileCont, { ccOverride: cc.in() });
         }
         catch (e) {
             throwError(importPath, fileCont, e);

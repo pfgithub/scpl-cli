@@ -104,7 +104,7 @@ const extraParseActions = {
     const fileCont = fs.readFileSync(importPath, "utf8");
     let actions;
     try {
-      actions = parse(fileCont, { extraParseActions });
+      actions = parse(fileCont, { ccOverride: cc.in() });
     } catch (e) {
       throwError(importPath, fileCont, e);
     }

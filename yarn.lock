@@ -763,16 +763,15 @@ rxjs@^6.4.0:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
 
-scpl@^1.7.0:
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/scpl/-/scpl-1.7.0.tgz#10bcb341bdbb33a6afba2a17cc86a808d68a99cb"
+scpl@^1.12.0:
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/scpl/-/scpl-1.12.0.tgz#327894664bb4c1311fb7a389622087581c7c7bd0"
+  integrity sha512-xR6n6sRiWPFjMoQTav2RhsHbI+5gEZvjrBp8DZfbtrFYZH3qRdJ87WjcyuMWMarcSdB+RE4FhMD3+hXOP35AJQ==
   dependencies:
     bplist-creator "^0.0.7"
     bplist-parser "^0.1.1"
-    chalk "^2.4.2"
     plist "^3.0.1"
     uuid "^3.3.2"
-    yargs "^13.2.1"
 
 semver@5.5.0:
   version "5.5.0"
