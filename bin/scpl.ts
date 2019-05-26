@@ -108,7 +108,7 @@ const extraParseActions = {
     } catch (e) {
       throwError(importPath, fileCont, e);
     }
-    actions.actions.forEach((action: any) => cc.add(action));
+    //actions.actions.forEach((action: any) => cc.add(action));
 
     console.log(`Done importing \`${importPath}\``); //eslint-disable-line no-console
   }
