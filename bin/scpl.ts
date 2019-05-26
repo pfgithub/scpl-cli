@@ -26,8 +26,8 @@ if (!argv._ || !argv._[0]) {
   process.exit(1);
 }
 
-const outputPath = path.join(process.cwd(), <string>(argv.o || argv.output));
-const inputPath = path.join(process.cwd(), <string>argv._[0]);
+const outputPath = path.resolve(<string>(argv.o || argv.output));
+const inputPath = path.resolve(<string>argv._[0]);
 
 if (argv.inverse) {
   console.log("Inverting");

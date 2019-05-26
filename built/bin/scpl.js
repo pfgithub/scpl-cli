@@ -19,8 +19,8 @@ if (!argv._ || !argv._[0]) {
     console.log("Usage: scpl [>inputfile] -o [outputfile]"); //eslint-disable-line no-console
     process.exit(1);
 }
-const outputPath = path.join(process.cwd(), (argv.o || argv.output));
-const inputPath = path.join(process.cwd(), argv._[0]);
+const outputPath = path.resolve((argv.o || argv.output));
+const inputPath = path.resolve(argv._[0]);
 if (argv.inverse) {
     console.log("Inverting");
     // read buffer
