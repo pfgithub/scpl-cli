@@ -10,6 +10,9 @@ import {
 import * as fs from "fs";
 import * as path from "path";
 import chalk from "chalk";
+import * as rp from "request-promise";
+//@ts-ignore
+import * as qrcode from "qrcode-terminal";
 
 const argv = yargs.argv;
 
@@ -47,16 +50,16 @@ function throwError(
   if (error instanceof PositionedError) {
     console.log(
       `${chalk.blue(filename)}:${chalk.yellow(
-        "" + error.start[0]
-      )}:${chalk.yellow("" + error.start[1])} - ` + error.message
+        `${  error.start[0]}`
+      )}:${chalk.yellow(`${  error.start[1]}`)} - ${  error.message}`
     ); //eslint-disable-line no-console
     console.log();
     const split = fileContent.split(`\n`);
     const startPos = [error.start[0] - 1, error.start[1] - 1];
     const endPos = [error.end[0] - 1, error.end[1] - 1];
-    const num = chalk.inverse(`${error.start[0]}`) + " ";
+    const num = `${chalk.inverse(`${error.start[0]}`)  } `;
     const blankNum =
-      chalk.inverse(`${" ".repeat(("" + error.start[0]).length)}`) + " ";
+      `${chalk.inverse(`${" ".repeat((`${  error.start[0]}`).length)}`)  } `;
     if (startPos[0] === endPos[0]) {
       // line numbers are the same
       const line = split[startPos[0]];
@@ -79,7 +82,7 @@ function throwError(
     console.log(
       `${chalk.blue(filename)}:${chalk.yellow("???")}:${chalk.yellow(
         "???"
-      )} - ` + error.message
+      )} - ${  error.message}`
     ); //eslint-disable-line no-console
   }
   process.exit(1);
@@ -121,5 +124,21 @@ try {
 } catch (e) {
   throwError(inputPath, fileCont, e);
 }
+
+if(argv.qrcode) {
+  (async() => {
+    console.log("Generating QR code");
+    const response = await rp({method: "POST", uri: "https://file.io", formData: {file: {value: plist, options: {filename: path.basename(outputPath), contentType: "application/x-octet-stream"}}}});
+    const json = JSON.parse(response);
+    const link = json.link;
+    if(!link) {
+      console.log("Error while uploading to generate qr code: ", response);
+    }else{
+      qrcode.generate(link);
+    }
+  })();
+}else{
+  fs.writeFileSync(outputPath, plist);
+}
+
 console.log(`Done in ${new Date().getTime() - started}ms`); //eslint-disable-line no-console
-fs.writeFileSync(outputPath, plist);

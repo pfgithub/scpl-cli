@@ -56,7 +56,7 @@ module.exports = {
   extends: ["eslint:recommended"],
 
   rules: {
-    "@typescript-eslint/indent": [1, "tab", { SwitchCase: 1 }],
+    "@typescript-eslint/indent": [1, 2, { SwitchCase: 1 }],
 
     ////////// Possible Errors //////////
 
@@ -210,7 +210,7 @@ module.exports = {
     "space-before-blocks": [1, "always"], // require or disallow space before blocks (off by default)
     "space-in-parens": 0, // require or disallow spaces inside parentheses (off by default)
     "space-unary-ops": 0, // Require or disallow spaces before/after unary operators (words on by default, nonwords off by default)
-    indent: [1, "tab", { SwitchCase: 1 }],
+    indent: [1, 2, { SwitchCase: 1 }],
     "prefer-const": 1,
     complexity: 1,
 
