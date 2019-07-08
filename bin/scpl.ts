@@ -14,23 +14,36 @@ import * as rp from "request-promise";
 //@ts-ignore
 import * as qrcode from "qrcode-terminal";
 
-const argv = yargs.argv;
+const argv = yargs
+  .command("scpl [filename] [options]", "Compile ScPL file", yargs =>
+    yargs.positional("filename", {
+      describe: "Input ScPL file name.",
+      demand: "Input file is required"
+    })
+  )
+  .option("output", { alias: "o", describe: "Defaults to <input path>.scpl" })
+  .option("qrcode", { alias: "q", type: "boolean" })
+  .option("inverse", { alias: "c", type: "boolean" })
+  .alias("h", "help").argv;
 
 if (argv.h || argv.help) {
   console.log("Usage: scpl [inputfile] -o [outputfile]"); //eslint-disable-line no-console
   process.exit(1);
 }
-if (!argv.o && !argv.output) {
-  console.log("Usage: scpl [inputfile] -o [>outputfile]"); //eslint-disable-line no-console
-  process.exit(1);
-}
 if (!argv._ || !argv._[0]) {
-  console.log("Usage: scpl [>inputfile] -o [outputfile]"); //eslint-disable-line no-console
+  console.log("Usage: scpl inputfile"); //eslint-disable-line no-console
   process.exit(1);
 }
 
-const outputPath = path.resolve(<string>(argv.o || argv.output));
 const inputPath = path.resolve(<string>argv._[0]);
+if (!argv.output) {
+  const pos = inputPath.lastIndexOf(".");
+  argv.output = `${inputPath.substr(
+    0,
+    pos < 0 ? inputPath.length : pos
+  )}.shortcut`;
+}
+const outputPath = path.resolve(<string>(argv.o || argv.output));
 
 if (argv.inverse) {
   console.log("Inverting");
@@ -50,16 +63,17 @@ function throwError(
   if (error instanceof PositionedError) {
     console.log(
       `${chalk.blue(filename)}:${chalk.yellow(
-        `${  error.start[0]}`
-      )}:${chalk.yellow(`${  error.start[1]}`)} - ${  error.message}`
+        `${error.start[0]}`
+      )}:${chalk.yellow(`${error.start[1]}`)} - ${error.message}`
     ); //eslint-disable-line no-console
     console.log();
     const split = fileContent.split(`\n`);
     const startPos = [error.start[0] - 1, error.start[1] - 1];
     const endPos = [error.end[0] - 1, error.end[1] - 1];
-    const num = `${chalk.inverse(`${error.start[0]}`)  } `;
-    const blankNum =
-      `${chalk.inverse(`${" ".repeat((`${  error.start[0]}`).length)}`)  } `;
+    const num = `${chalk.inverse(`${error.start[0]}`)} `;
+    const blankNum = `${chalk.inverse(
+      `${" ".repeat(`${error.start[0]}`.length)}`
+    )} `;
     if (startPos[0] === endPos[0]) {
       // line numbers are the same
       const line = split[startPos[0]];
@@ -82,7 +96,7 @@ function throwError(
     console.log(
       `${chalk.blue(filename)}:${chalk.yellow("???")}:${chalk.yellow(
         "???"
-      )} - ${  error.message}`
+      )} - ${error.message}`
     ); //eslint-disable-line no-console
   }
   process.exit(1);
@@ -125,19 +139,31 @@ try {
   throwError(inputPath, fileCont, e);
 }
 
-if(argv.qrcode) {
-  (async() => {
+if (argv.qrcode) {
+  (async () => {
     console.log("Generating QR code");
-    const response = await rp({method: "POST", uri: "https://file.io", formData: {file: {value: plist, options: {filename: path.basename(outputPath), contentType: "application/x-octet-stream"}}}});
+    const response = await rp({
+      method: "POST",
+      uri: "https://file.io",
+      formData: {
+        file: {
+          value: plist,
+          options: {
+            filename: path.basename(outputPath),
+            contentType: "application/x-octet-stream"
+          }
+        }
+      }
+    });
     const json = JSON.parse(response);
     const link = json.link;
-    if(!link) {
+    if (!link) {
       console.log("Error while uploading to generate qr code: ", response);
-    }else{
+    } else {
       qrcode.generate(link);
     }
   })();
-}else{
+} else {
   fs.writeFileSync(outputPath, plist);
 }
 
